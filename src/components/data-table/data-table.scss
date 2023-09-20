@@ -1,0 +1,30 @@
+@import '@styles/variables';
+
+.data-table {
+  width: 100%;
+
+  .action-bar {
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: $space-XS;
+  }
+
+  .ant-table-tbody {
+    .ant-table-row-selected,
+    .ant-table-row:hover {
+      td {
+        background-color: $color-white !important;
+      }
+    }
+
+    .check-circle-outlined {
+      font-size: 15px;
+      color: green;
+    }
+
+    .close-circle-outlined {
+      font-size: 15px;
+      color: red;
+    }
+  }
+}

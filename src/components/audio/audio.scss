@@ -1,0 +1,12 @@
+.custom-audio {
+  audio::-webkit-media-controls-panel {
+    background-color: #fff;
+  }
+  audio::-webkit-media-controls-play-button {
+    margin-bottom: 1.4px;
+  }
+
+  tr:hover .custom-audio audio::-webkit-media-controls-panel {
+    background-color: #fafafa;
+  }
+}

@@ -1,1 +1,3 @@
-# sales-oil-fe
+## Lottery dapp
+
+## Using ethereum
