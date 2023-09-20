@@ -23,6 +23,7 @@ export default defineConfig({
       '@translation': path.resolve(__dirname, './src/translation'),
       '@queries': path.resolve(__dirname, './src/services/queries'),
       '@utils': path.resolve(__dirname, './src/utils'),
+      '@configs': path.resolve(__dirname, './src/configs'),
     },
   },
   server: {

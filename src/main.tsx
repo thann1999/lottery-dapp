@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import { Flip, ToastContainer } from 'react-toastify';
 
+import { MetaMaskContextProvider } from '@hooks';
 import App from '@root/App';
 import reportWebVitals from '@root/reportWebVitals';
 
@@ -11,26 +11,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import '@styles/index.scss';
 import 'antd/dist/reset.css';
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-      retry: false,
-      staleTime: 0,
-      cacheTime: 0,
-    },
-  },
-});
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
-ReactDOM.render(
+root.render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
+    <MetaMaskContextProvider>
       <App />
       <ToastContainer theme="colored" hideProgressBar transition={Flip} limit={5} />
-    </QueryClientProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+    </MetaMaskContextProvider>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

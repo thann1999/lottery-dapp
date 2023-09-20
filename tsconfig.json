@@ -30,7 +30,8 @@
       "@styles/*": ["styles/*"],
       "@translation/*": ["translation/*"],
       "@queries": ["services/queries"],
-      "@utils": ["utils/"]
+      "@utils": ["utils/"],
+      "@configs": ["configs/"]
     }
   },
   "include": ["src"],

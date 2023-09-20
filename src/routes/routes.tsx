@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import { RouteObject, createBrowserRouter } from 'react-router-dom';
 
 import { RouteItem } from '@interfaces';
-import { EmptyLayout } from '@layouts';
+import { DefaultLayout, EmptyLayout } from '@layouts';
 
 import { PATH } from './path';
 
@@ -18,6 +18,7 @@ export const routes: RouteItem[] = [
   {
     path: PATH.home,
     component: HomePage,
+    layout: DefaultLayout,
   },
 ];
 
