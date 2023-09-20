@@ -1,0 +1,68 @@
+{
+  "common": {
+    "welcome": "Welcome",
+    "logout": "Logout",
+    "login": "Login",
+    "totalRecords": "Total Records",
+    "button": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "submit": "Submit",
+      "confirm": "Confirm",
+      "close": "Close",
+      "delete": "Delete",
+      "search": "Search",
+      "create": "Create"
+    },
+    "all": "All",
+    "tableColumns": {
+      "email": "Email",
+      "name": "Name",
+      "phoneNumber": "Phone number",
+      "status": "Status",
+      "action": "Action"
+    }
+  },
+  "pageTitle": {
+    "users": "User Management",
+    "notFound": "Page Not Found",
+    "accountNotActive": "Account Not Active"
+  },
+  "messages": {
+    "processingError": "There was an error in processing",
+    "loginAgain": "Your login session has expired. To continue, please login again"
+  },
+  "layouts": {
+    "dashboard": {
+      "usersItem": "Users"
+    }
+  },
+  "pages": {
+    "notFoundPage": {
+      "backToHome": "Back to home",
+      "message": "Oops! 😖 The requested URL was not found on this server."
+    },
+    "users": {
+      "userList": "Agency User List",
+      "tableColumns": {
+        "activatedAt": "Activated At",
+        "registeredAt": "Registered At"
+      },
+      "inputPlaceholder": "Input email to search",
+      "active": "Active",
+      "pending": "Pending",
+      "inactive": "Inactive",
+      "reactivate": "Reactivate",
+      "deactivate": "Deactivate",
+      "updateSuccess": "Update user successfully",
+      "deactivateTitle": "Deactivate user",
+      "deactivateContent": "After deactivate, user cannot use Agency Cloud Portal. Are you sure you want to deactivate this user?"
+    },
+    "notActive": {
+      "notActivated": "Your account is not activated",
+      "contentNotActivated": "To use Agency Cloud Portal, please contact your admin to activate account.",
+      "inactive": "Your account is currently inactive",
+      "contentInactive": "Your account has been locked. Please contact your admin to reactivate."
+    }
+  }
+}
