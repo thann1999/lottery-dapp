@@ -17,3 +17,10 @@ export enum InitPagination {
   INIT_PAGE = 1,
   INIT_PAGE_SIZE = 20,
 }
+
+export enum ModalSize {
+  XS = 420,
+  SM = 500,
+  MD = 700,
+  LG = 1000,
+}

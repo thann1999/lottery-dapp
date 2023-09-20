@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.0.1",
+    "@iconify/react": "^4.1.1",
     "@metamask/detect-provider": "^2.0.0",
     "@metamask/providers": "^13.0.0",
     "@rollup/plugin-replace": "^5.0.2",

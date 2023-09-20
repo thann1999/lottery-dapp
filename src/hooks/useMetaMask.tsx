@@ -10,24 +10,11 @@ import {
 } from 'react';
 
 import detectEthereumProvider from '@metamask/detect-provider';
-import { toast } from 'react-toastify';
 
+import { MetaMaskContextData, WalletInfo } from '@root/interfaces';
 import { formatBalance } from '@root/utils';
 
-interface WalletState {
-  accounts: any[];
-  balance: string;
-  chainId: string;
-}
-
-interface MetaMaskContextData {
-  wallet: WalletState;
-  hasProvider: boolean | null;
-  isConnecting: boolean;
-  connectMetaMask: () => void;
-}
-
-const disconnectedState: WalletState = { accounts: [], balance: '', chainId: '' };
+const disconnectedState: WalletInfo = { accounts: [], balance: '', chainId: '' };
 
 const MetaMaskContext = createContext<MetaMaskContextData>({} as MetaMaskContextData);
 
@@ -39,7 +26,7 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
   const [wallet, setWallet] = useState(disconnectedState);
 
   // useCallback ensures that you don't uselessly recreate the _updateWallet function on every render
-  const updateWalletLogic = useCallback(async (providedAccounts?: any) => {
+  const updateWallet = useCallback(async (providedAccounts?: any) => {
     const accounts =
       providedAccounts || (await window.ethereum.request({ method: 'eth_accounts' }));
 
@@ -62,11 +49,8 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
     setWallet({ accounts, balance, chainId });
   }, []);
 
-  const updateWalletAndAccounts = useCallback(() => updateWalletLogic(), [updateWalletLogic]);
-  const updateWallet = useCallback(
-    (accounts: any) => updateWalletLogic(accounts),
-    [updateWalletLogic]
-  );
+  const handleChangeChain = useCallback(() => updateWallet(), [updateWallet]);
+  const handleChangeWallet = useCallback((accounts: any) => updateWallet(accounts), [updateWallet]);
 
   /**
    * This logic checks if MetaMask is installed. If it is, some event handlers are set up
@@ -80,19 +64,19 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
       setHasProvider(Boolean(provider));
 
       if (provider) {
-        updateWalletAndAccounts();
-        window.ethereum.on('accountsChanged', updateWallet);
-        window.ethereum.on('chainChanged', updateWalletAndAccounts);
+        handleChangeChain();
+        window.ethereum.on('accountsChanged', handleChangeWallet);
+        window.ethereum.on('chainChanged', handleChangeChain);
       }
     };
 
     getProvider();
 
     return () => {
-      window.ethereum?.removeListener('accountsChanged', updateWallet);
-      window.ethereum?.removeListener('chainChanged', updateWalletAndAccounts);
+      window.ethereum?.removeListener('accountsChanged', handleChangeWallet);
+      window.ethereum?.removeListener('chainChanged', handleChangeChain);
     };
-  }, [updateWallet, updateWalletAndAccounts]);
+  }, [handleChangeWallet, handleChangeChain]);
 
   const connectMetaMask = async () => {
     setIsConnecting(true);
@@ -101,9 +85,9 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
       const accounts = await window.ethereum.request({
         method: 'eth_requestAccounts',
       });
-      updateWallet(accounts);
+      handleChangeWallet(accounts);
     } catch (err: any) {
-      toast.error(err.message);
+      // Handle error
     }
     setIsConnecting(false);
   };

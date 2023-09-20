@@ -20,7 +20,7 @@ import { Link } from 'react-router-dom';
 import { ColumnType, DateTimeFormat, DayjsUnit, InitPagination, TimeZone } from '@constants';
 import { DataTableColumn, DataTableProps } from '@interfaces';
 
-import Audio from '../audio/Audio';
+import Audio from '../audio';
 
 import './data-table.scss';
 

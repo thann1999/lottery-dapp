@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ReactDOM from 'react-dom/client';
-import { Flip, ToastContainer } from 'react-toastify';
+import { ToastContainer, Zoom } from 'react-toastify';
 
 import { MetaMaskContextProvider } from '@hooks';
 import App from '@root/App';
@@ -17,7 +17,7 @@ root.render(
   <React.StrictMode>
     <MetaMaskContextProvider>
       <App />
-      <ToastContainer theme="colored" hideProgressBar transition={Flip} limit={5} />
+      <ToastContainer theme="colored" transition={Zoom} limit={5} />
     </MetaMaskContextProvider>
   </React.StrictMode>
 );
