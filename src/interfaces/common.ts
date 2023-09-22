@@ -4,6 +4,16 @@ import { MenuProps } from 'antd';
 
 export type ObjectOrArray = { [key: string]: any } | any[];
 
+export interface RouteItem {
+  path?: string;
+  guard?: (props: any) => JSX.Element;
+  layout?: (value: RouteItem) => JSX.Element;
+  component?: React.LazyExoticComponent<() => JSX.Element>;
+  handle?: Record<string, any>;
+  routes?: RouteItem[];
+  noMargin?: boolean;
+}
+
 export interface ParentComponentProps {
   children: JSX.Element;
 }

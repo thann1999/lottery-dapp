@@ -10,7 +10,17 @@ import { renderRoutes, routes } from './routes/routes';
 
 function App() {
   return (
-    <ConfigProvider>
+    <ConfigProvider
+      theme={{
+        components: {
+          Button: {
+            borderRadius: 10,
+            borderRadiusLG: 10,
+            borderRadiusSM: 10,
+          },
+        },
+      }}
+    >
       <Suspense fallback={<LoadingScreen />}>
         <RouterProvider router={renderRoutes(routes)} />
       </Suspense>

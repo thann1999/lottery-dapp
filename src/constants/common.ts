@@ -15,11 +15,20 @@ export enum CookieKey {
   LANGUAGE = 'language',
 }
 
+export enum LocalStorageKey {
+  isKeepConnect = 'keep-connect',
+}
+
 export const PAGE_404_PATH = '/404';
 
 export enum TimeZone {
   VIET_NAM = 7,
   UTC = 0,
+}
+
+export enum MetamaskRequestMethod {
+  SwitchChain = 'wallet_switchEthereumChain',
+  Login = 'eth_requestAccounts',
 }
 
 export enum Message {

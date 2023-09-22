@@ -1,7 +1,9 @@
+import { Chain } from './chains';
+
 export interface WalletInfo {
   accounts: any[];
   balance: string;
-  chainId: string;
+  chain: Chain;
 }
 
 export interface MetaMaskContextData {
@@ -9,4 +11,6 @@ export interface MetaMaskContextData {
   hasProvider: boolean | null;
   isConnecting: boolean;
   connectMetaMask: () => void;
+  disconnectMetaMask: () => void;
+  switchNetwork: () => void;
 }

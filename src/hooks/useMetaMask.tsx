@@ -1,20 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  useState,
-  useEffect,
-  createContext,
   PropsWithChildren,
-  useContext,
+  createContext,
   useCallback,
+  useContext,
+  useEffect,
   useMemo,
+  useState,
 } from 'react';
 
 import detectEthereumProvider from '@metamask/detect-provider';
 
-import { MetaMaskContextData, WalletInfo } from '@root/interfaces';
-import { formatBalance } from '@root/utils';
+import { web3 } from '@root/configs';
+import { ChainId, LocalStorageKey, MetamaskRequestMethod } from '@root/constants';
+import { Chain, MetaMaskContextData, WalletInfo } from '@root/interfaces';
+import { storageService } from '@root/services';
+import { getChainInfo } from '@root/utils';
 
-const disconnectedState: WalletInfo = { accounts: [], balance: '', chainId: '' };
+const disconnectedState: WalletInfo = { accounts: [], balance: '0', chain: {} as Chain };
 
 const MetaMaskContext = createContext<MetaMaskContextData>({} as MetaMaskContextData);
 
@@ -25,31 +28,44 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
 
   const [wallet, setWallet] = useState(disconnectedState);
 
-  // useCallback ensures that you don't uselessly recreate the _updateWallet function on every render
-  const updateWallet = useCallback(async (providedAccounts?: any) => {
-    const accounts =
-      providedAccounts || (await window.ethereum.request({ method: 'eth_accounts' }));
+  const updateWallet = useCallback(async (providedAccounts?: any, isChangeChain?: boolean) => {
+    let accounts = providedAccounts;
 
-    if (accounts.length === 0) {
-      // If there are no accounts, then the user is disconnected
-      setWallet(disconnectedState);
+    // When user disconnect from metamask wallet extension
+    if (accounts && !accounts.length) {
+      disconnectMetaMask();
       return;
     }
 
-    const balance = formatBalance(
-      (await window.ethereum.request({
-        method: 'eth_getBalance',
-        params: [accounts[0], 'latest'],
-      })) as string
-    );
-    const chainId = (await window.ethereum.request({
-      method: 'eth_chainId',
-    })) as string;
+    // Automatic login when user already logged in
+    if (storageService.get(LocalStorageKey.isKeepConnect) && !accounts) {
+      accounts = await window.ethereum?.request({
+        method: MetamaskRequestMethod.Login,
+      });
+    }
 
-    setWallet({ accounts, balance, chainId });
+    // When user not login
+    if (!accounts) return;
+
+    const balance = Number(
+      await web3.utils.fromWei(await web3.eth.getBalance(accounts[0]), 'ether')
+    );
+    const chainIdHex = await web3.eth.getChainId(accounts[0]);
+    const chainId = Number(chainIdHex);
+
+    // When user connect wrong network
+    if (chainId !== ChainId.Sepolia && !isChangeChain) {
+      switchNetwork();
+    }
+
+    setWallet({
+      accounts,
+      balance: balance > 0 ? balance.toFixed(4) : '0',
+      chain: getChainInfo(chainId),
+    });
   }, []);
 
-  const handleChangeChain = useCallback(() => updateWallet(), [updateWallet]);
+  const handleChangeChain = useCallback(() => updateWallet(undefined, true), [updateWallet]);
   const handleChangeWallet = useCallback((accounts: any) => updateWallet(accounts), [updateWallet]);
 
   /**
@@ -65,8 +81,8 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
 
       if (provider) {
         handleChangeChain();
-        window.ethereum.on('accountsChanged', handleChangeWallet);
-        window.ethereum.on('chainChanged', handleChangeChain);
+        window.ethereum?.on('accountsChanged', handleChangeWallet);
+        window.ethereum?.on('chainChanged', handleChangeChain);
       }
     };
 
@@ -82,14 +98,27 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
     setIsConnecting(true);
 
     try {
-      const accounts = await window.ethereum.request({
-        method: 'eth_requestAccounts',
+      const accounts = await window.ethereum?.request({
+        method: MetamaskRequestMethod.Login,
       });
       handleChangeWallet(accounts);
+      storageService.set(LocalStorageKey.isKeepConnect, 1);
     } catch (err: any) {
       // Handle error
     }
     setIsConnecting(false);
+  };
+
+  const disconnectMetaMask = () => {
+    setWallet(disconnectedState);
+    storageService.remove(LocalStorageKey.isKeepConnect);
+  };
+
+  const switchNetwork = () => {
+    window.ethereum?.request({
+      method: MetamaskRequestMethod.SwitchChain,
+      params: [{ chainId: web3.utils.numberToHex(ChainId.Sepolia) }],
+    });
   };
 
   const contextValue = useMemo(
@@ -98,6 +127,8 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
       hasProvider,
       isConnecting,
       connectMetaMask,
+      disconnectMetaMask,
+      switchNetwork,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [wallet, hasProvider, isConnecting]
