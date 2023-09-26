@@ -1,3 +1,3 @@
 import { PATH } from '@root/routes/path';
 
-export const getHomePage = () => PATH.home;
+export const getMintPath = () => PATH.mint;

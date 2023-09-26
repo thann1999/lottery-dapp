@@ -1,5 +1,5 @@
 /* eslint-disable no-template-curly-in-string */
-import { Chains } from '@root/interfaces';
+import { Chains, SelectOption } from '@root/interfaces';
 
 export const chains: Chains = {
   1: {
@@ -2540,11 +2540,3 @@ export enum ChainId {
   WanchainTestnet = 999,
   Sepolia = 11155111,
 }
-
-export const SUPPORTED_CHAINS = [
-  {
-    label: chains[ChainId.Sepolia].name,
-    value: ChainId.Sepolia,
-    icon: 'cryptocurrency-color:eth',
-  },
-];

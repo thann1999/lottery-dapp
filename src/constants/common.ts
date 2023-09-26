@@ -1,4 +1,5 @@
-import { Option } from '@root/interfaces';
+import { HeaderMenuItem, Option } from '@root/interfaces';
+import { getMintPath } from '@root/utils';
 
 export const WEBSITE_NAME = 'Web3';
 
@@ -16,7 +17,8 @@ export enum CookieKey {
 }
 
 export enum LocalStorageKey {
-  isKeepConnect = 'keep-connect',
+  IsKeepConnect = 'keep-connect',
+  Theme = 'theme',
 }
 
 export const PAGE_404_PATH = '/404';
@@ -74,3 +76,22 @@ export enum ColumnType {
 }
 
 export const ALL_STATUS: Option = { label: 'common.all', value: '' };
+
+export enum RouteKey {
+  MintNFT = 'mint-nft',
+  Stake = 'stake',
+}
+
+export const HEADER_MENU: HeaderMenuItem[] = [
+  {
+    label: 'Mint',
+    href: getMintPath(),
+    key: RouteKey.MintNFT,
+  },
+  {
+    label: 'Stake (Coming soon)',
+    href: '',
+    key: RouteKey.Stake,
+    isDisabled: true,
+  },
+];

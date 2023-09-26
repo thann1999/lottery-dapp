@@ -14,8 +14,8 @@ import detectEthereumProvider from '@metamask/detect-provider';
 import { web3 } from '@root/configs';
 import { ChainId, LocalStorageKey, MetamaskRequestMethod } from '@root/constants';
 import { Chain, MetaMaskContextData, WalletInfo } from '@root/interfaces';
-import { storageService } from '@root/services';
 import { getChainInfo } from '@root/utils';
+import { storageService } from '@services';
 
 const disconnectedState: WalletInfo = { accounts: [], balance: '0', chain: {} as Chain };
 
@@ -38,7 +38,7 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
     }
 
     // Automatic login when user already logged in
-    if (storageService.get(LocalStorageKey.isKeepConnect) && !accounts) {
+    if (storageService.get(LocalStorageKey.IsKeepConnect) && !accounts) {
       accounts = await window.ethereum?.request({
         method: MetamaskRequestMethod.Login,
       });
@@ -102,7 +102,7 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
         method: MetamaskRequestMethod.Login,
       });
       handleChangeWallet(accounts);
-      storageService.set(LocalStorageKey.isKeepConnect, 1);
+      storageService.set(LocalStorageKey.IsKeepConnect, 1);
     } catch (err: any) {
       // Handle error
     }
@@ -111,7 +111,7 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
 
   const disconnectMetaMask = () => {
     setWallet(disconnectedState);
-    storageService.remove(LocalStorageKey.isKeepConnect);
+    storageService.remove(LocalStorageKey.IsKeepConnect);
   };
 
   const switchNetwork = () => {

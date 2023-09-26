@@ -4,14 +4,14 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import notFoundPage from '@assets/images/not-found-page.svg';
-import { getHomePage } from '@root/utils';
+import { getMintPath } from '@root/utils';
 
 export default function NotFoundPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
   const handleBackToHome = async () => {
-    navigate(getHomePage());
+    navigate(getMintPath());
   };
 
   return (

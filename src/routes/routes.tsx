@@ -4,21 +4,29 @@ import { RouteObject, createBrowserRouter } from 'react-router-dom';
 
 import { RouteItem } from '@interfaces';
 import { DefaultLayout, EmptyLayout } from '@layouts';
+import { RouteKey } from '@root/constants';
+import { DefaultGuard } from '@root/guards';
 
 import { PATH } from './path';
 
 const NotFoundPage = React.lazy(() => import('@pages/not-found'));
-const HomePage = React.lazy(() => import('@pages/home'));
+const MintPage = React.lazy(() => import('@root/pages/mint'));
 
 export const routes: RouteItem[] = [
   {
     path: '*',
     component: NotFoundPage,
+    guard: DefaultGuard,
   },
   {
-    path: PATH.home,
-    component: HomePage,
+    path: PATH.mint,
+    component: MintPage,
     layout: DefaultLayout,
+    guard: DefaultGuard,
+    handle: {
+      pageTitle: 'Mint NFT',
+      key: RouteKey.MintNFT,
+    },
   },
 ];
 

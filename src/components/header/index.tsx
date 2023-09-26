@@ -1,18 +1,37 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { Icon } from '@iconify/react';
-import { Button, Layout, Select, Typography } from 'antd';
+import { Button, Layout, Popover, Select, Space, Typography } from 'antd';
+import clsx from 'clsx';
+import { useMatches, useNavigate } from 'react-router-dom';
 
-import { ModalSize, SUPPORTED_CHAINS } from '@root/constants';
+import logo from '@assets/images/logo.png';
+import { ChainId, HEADER_MENU, ModalSize, chains } from '@root/constants';
 import { useMetaMask, useModal } from '@root/hooks';
-import { formatAddress } from '@root/utils';
+import { formatAddress, getMintPath } from '@root/utils';
+import variables from '@styles/_variables.module.scss';
 
 import DetailWalletModalBody from '../detail-wallet-modal';
+import SettingWeb from '../setting-web/SettingWeb';
 import SwitchChainModalBody from '../switch-chain-modal';
 
 const { Header } = Layout;
 
+export const SUPPORTED_CHAINS = [
+  {
+    label: (
+      <div className="flex items-center h-full">
+        <Icon icon="cryptocurrency-color:eth" fontSize={18} />
+        <Typography.Text className="ml-2">{chains[ChainId.Sepolia].name}</Typography.Text>
+      </div>
+    ),
+    value: ChainId.Sepolia,
+  },
+];
+
 export default function HeaderComponent() {
+  const [openSetting, setOpenSetting] = useState(false);
+  const navigate = useNavigate();
   const { wallet, hasProvider, isConnecting, connectMetaMask } = useMetaMask();
   const { open: openDetailWallet, ModalComponent: DetailWalletModal } = useModal({
     modalBody: DetailWalletModalBody,
@@ -28,6 +47,9 @@ export default function HeaderComponent() {
     displayFooter: false,
     width: ModalSize.SM,
   });
+  const matches = useMatches();
+  const queryMatches = matches.filter((item) => !!item.handle);
+  const activeItem = queryMatches.filter((item) => !!(item.handle as any)?.key);
 
   const isCorrectChain = useMemo(
     () => !!SUPPORTED_CHAINS.find((item) => item.value === wallet.chain?.chainId),
@@ -62,25 +84,50 @@ export default function HeaderComponent() {
     });
   };
 
+  const handleInstallMetaMask = () => {
+    window.open('https://metamask.io', '_blank');
+  };
+
   return (
     <>
-      <Header className="flex items-center justify-between bg-transparent">
-        <div />
+      <Header className="flex items-center justify-between xl:px-32 bg-transparent">
+        <Space direction="horizontal" size="small">
+          <img
+            src={logo}
+            alt="logo"
+            className="h-11 cursor-pointer"
+            onClick={() => navigate(getMintPath())}
+          />
 
-        <div className="flex">
+          {HEADER_MENU.map((item) => (
+            <Button
+              key={item.key}
+              type="link"
+              onClick={() => navigate(item.href)}
+              disabled={item.isDisabled}
+              size="large"
+              className={clsx('font-medium hidden md:block', {
+                'text-primary': (activeItem[0]?.handle as any)?.key === item.key,
+              })}
+            >
+              {item.label}
+            </Button>
+          ))}
+        </Space>
+
+        <div className="flex items-center">
           {!hasProvider && (
-            <Typography.Link href="https://metamask.io" target="_blank">
+            <Button size="large" onClick={handleInstallMetaMask} type="primary">
               Install MetaMask
-            </Typography.Link>
+            </Button>
           )}
 
           {hasProvider && (
             <Select
               size="large"
-              defaultValue="lucy"
-              allowClear
-              options={[{ value: 'lucy', label: 'Lucy' }]}
-              className="mr-4"
+              options={SUPPORTED_CHAINS}
+              defaultValue={SUPPORTED_CHAINS[0].value}
+              className="w-36 mx-4"
             />
           )}
 
@@ -94,13 +141,23 @@ export default function HeaderComponent() {
             <Button
               size="large"
               type="primary"
-              className="flex items-center"
+              className="flex items-center mx-4"
               onClick={handleViewDetailWallet}
               icon={<Icon icon="iconoir:wallet" fontSize={20} />}
             >
               {isCorrectChain ? formatAddress(wallet.accounts[0]) : 'Switch chain'}
             </Button>
           )}
+
+          <Popover
+            trigger="click"
+            content={<SettingWeb handleClose={() => setOpenSetting(false)} />}
+            open={openSetting}
+            placement="topRight"
+            onOpenChange={setOpenSetting}
+          >
+            <Icon icon="uil:setting" fontSize={28} className="cursor-pointer mt-0.5 ml-4" />
+          </Popover>
         </div>
       </Header>
 

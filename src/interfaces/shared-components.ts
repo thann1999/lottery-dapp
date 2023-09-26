@@ -68,3 +68,7 @@ export interface DataTableColumn extends Omit<ColumnType<any>, 'sorter'> {
   sorter?: boolean;
   children?: DataTableColumn[];
 }
+
+export interface SettingWebProps {
+  handleClose: () => void;
+}

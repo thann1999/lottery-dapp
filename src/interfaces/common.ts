@@ -33,3 +33,10 @@ export interface PaginationParams {
 }
 
 export type SelectOption = Option[];
+
+export interface HeaderMenuItem {
+  label: string;
+  key: string;
+  href: string;
+  isDisabled?: boolean;
+}

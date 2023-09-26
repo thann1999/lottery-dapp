@@ -4,7 +4,7 @@ import Backend from 'i18next-http-backend';
 import { initReactI18next } from 'react-i18next';
 
 import { CookieKey, Language } from '@root/constants';
-import { storageService } from '@root/services';
+import { storageService } from '@services';
 
 i18n
   // load translation using http -> see /public/locales/<language_code>/translation.json)
