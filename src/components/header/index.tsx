@@ -49,7 +49,8 @@ export default function HeaderComponent() {
   });
   const matches = useMatches();
   const queryMatches = matches.filter((item) => !!item.handle);
-  const activeItem = queryMatches.filter((item) => !!(item.handle as any)?.key);
+  const activeKey = (queryMatches.filter((item) => !!(item.handle as any)?.key)[0]?.handle as any)
+    ?.key;
 
   const isCorrectChain = useMemo(
     () => !!SUPPORTED_CHAINS.find((item) => item.value === wallet.chain?.chainId),
@@ -90,12 +91,12 @@ export default function HeaderComponent() {
 
   return (
     <>
-      <Header className="flex items-center justify-between xl:px-32 bg-transparent">
+      <Header className="flex items-center justify-between xl:px-32 bg-transparent h-20">
         <Space direction="horizontal" size="small">
           <img
             src={logo}
             alt="logo"
-            className="h-11 cursor-pointer"
+            className="h-11 cursor-pointer mr-4"
             onClick={() => navigate(getMintPath())}
           />
 
@@ -106,8 +107,8 @@ export default function HeaderComponent() {
               onClick={() => navigate(item.href)}
               disabled={item.isDisabled}
               size="large"
-              className={clsx('font-medium hidden md:block', {
-                'text-primary': (activeItem[0]?.handle as any)?.key === item.key,
+              className={clsx('font-medium hidden md:block text ', {
+                'text-primary': activeKey === item.key,
               })}
             >
               {item.label}
