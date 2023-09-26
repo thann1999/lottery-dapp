@@ -89,6 +89,12 @@ export default function HeaderComponent() {
     window.open('https://metamask.io', '_blank');
   };
 
+  const handleNavigate = (href: string, isDisabled?: boolean) => {
+    if (isDisabled) return;
+
+    navigate(href);
+  };
+
   return (
     <>
       <Header className="flex items-center justify-between xl:px-32 bg-transparent h-20">
@@ -96,23 +102,22 @@ export default function HeaderComponent() {
           <img
             src={logo}
             alt="logo"
-            className="h-11 cursor-pointer mr-4"
+            className="h-11 cursor-pointer"
             onClick={() => navigate(getMintPath())}
           />
 
           {HEADER_MENU.map((item) => (
-            <Button
+            <Typography
               key={item.key}
-              type="link"
-              onClick={() => navigate(item.href)}
-              disabled={item.isDisabled}
-              size="large"
-              className={clsx('font-medium hidden md:block text ', {
+              onClick={() => handleNavigate(item.href, item.isDisabled)}
+              // disabled={item.isDisabled}
+              className={clsx('font-medium  text-base hidden md:block text ml-10', {
                 'text-primary': activeKey === item.key,
+                'cursor-pointer': !item.isDisabled,
               })}
             >
               {item.label}
-            </Button>
+            </Typography>
           ))}
         </Space>
 

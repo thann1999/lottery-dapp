@@ -1,5 +1,5 @@
 import { HeaderMenuItem, Option } from '@root/interfaces';
-import { getMintPath } from '@root/utils';
+import { getLotteryPath, getMintPath } from '@root/utils';
 
 export const WEBSITE_NAME = 'Web3';
 
@@ -80,6 +80,7 @@ export const ALL_STATUS: Option = { label: 'common.all', value: '' };
 export enum RouteKey {
   MintNFT = 'mint-nft',
   Stake = 'stake',
+  Lottery = 'lottery',
 }
 
 export const HEADER_MENU: HeaderMenuItem[] = [
@@ -87,6 +88,11 @@ export const HEADER_MENU: HeaderMenuItem[] = [
     label: 'Mint',
     href: getMintPath(),
     key: RouteKey.MintNFT,
+  },
+  {
+    label: 'Lottery',
+    href: getLotteryPath(),
+    key: RouteKey.Lottery,
   },
   {
     label: 'Stake (Coming soon)',

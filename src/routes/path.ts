@@ -8,4 +8,5 @@ export const PATH = {
   root: ROOT_PATH,
   notFound: path(ROOT_PATH, '/404'),
   mint: path(ROOT_PATH, '/mint'),
+  lottery: path(ROOT_PATH, '/lottery'),
 };

@@ -11,22 +11,35 @@ import { PATH } from './path';
 
 const NotFoundPage = React.lazy(() => import('@pages/not-found'));
 const MintPage = React.lazy(() => import('@root/pages/mint'));
+const LotteryPage = React.lazy(() => import('@root/pages/lottery'));
 
 export const routes: RouteItem[] = [
   {
     path: '*',
     component: NotFoundPage,
-    guard: DefaultGuard,
   },
   {
-    path: PATH.mint,
-    component: MintPage,
+    path: PATH.root,
     layout: DefaultLayout,
     guard: DefaultGuard,
-    handle: {
-      pageTitle: 'Mint NFT',
-      key: RouteKey.MintNFT,
-    },
+    routes: [
+      {
+        path: PATH.mint,
+        component: MintPage,
+        handle: {
+          pageTitle: 'Mint',
+          key: RouteKey.MintNFT,
+        },
+      },
+      {
+        path: PATH.lottery,
+        component: LotteryPage,
+        handle: {
+          pageTitle: 'Lottery',
+          key: RouteKey.Lottery,
+        },
+      },
+    ],
   },
 ];
 
