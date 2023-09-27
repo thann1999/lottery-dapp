@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 
 import clsx from 'clsx';
 import { Helmet } from 'react-helmet';
-import { Outlet, useMatches, useOutlet } from 'react-router-dom';
+import { Outlet, useMatches } from 'react-router-dom';
 
 import { HeaderComponent, LoadingScreen } from '@root/components';
 import { ThemeMode } from '@root/constants';
@@ -25,7 +25,7 @@ export default function EmptyLayout() {
 
       <HeaderComponent />
 
-      <div className="mx-[50px] xl:mx-32 mt-10">
+      <div className="mx-[50px] xl:mx-32">
         <Suspense fallback={<LoadingScreen />}>
           <Outlet />
         </Suspense>
