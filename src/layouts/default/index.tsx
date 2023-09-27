@@ -25,7 +25,7 @@ export default function EmptyLayout() {
 
       <HeaderComponent />
 
-      <div className="mx-[50px] xl:mx-32">
+      <div className="mx-[50px] xl:mx-32 mt-10">
         <Suspense fallback={<LoadingScreen />}>
           <Outlet />
         </Suspense>
