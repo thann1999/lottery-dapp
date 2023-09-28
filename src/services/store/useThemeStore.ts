@@ -1,13 +1,9 @@
 import { create } from 'zustand';
 
 import { LocalStorageKey, ThemeMode } from '@root/constants';
+import { ThemeState } from '@root/interfaces';
 
 import storageService from '../storage/storage.service';
-
-interface ThemeState {
-  appTheme: string;
-  setTheme: (appTheme: string) => void;
-}
 
 const useThemeStore = create<ThemeState>((set) => ({
   appTheme: storageService.get(LocalStorageKey.Theme) || ThemeMode.Light,

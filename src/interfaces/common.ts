@@ -40,3 +40,8 @@ export interface HeaderMenuItem {
   href: string;
   isDisabled?: boolean;
 }
+
+export interface ThemeState {
+  appTheme: string;
+  setTheme: (appTheme: string) => void;
+}

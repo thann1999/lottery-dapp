@@ -1,8 +1,22 @@
 import { web3 } from '../web3';
 
-const ADDRESS = '0x341aBb652a977175d63C8A7D542591539C4678a3';
+const ADDRESS = '0xeb3C46A37f47058395B1DfC723491b3Ec62dA2F0';
 
 const ABI = [
+  {
+    inputs: [],
+    name: 'enter',
+    outputs: [],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'pickWinner',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
   {
     inputs: [],
     stateMutability: 'nonpayable',
@@ -10,9 +24,15 @@ const ABI = [
   },
   {
     inputs: [],
-    name: 'enter',
-    outputs: [],
-    stateMutability: 'payable',
+    name: 'checkEntered',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
     type: 'function',
   },
   {
@@ -30,6 +50,19 @@ const ABI = [
   },
   {
     inputs: [],
+    name: 'lotteryCount',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
     name: 'manager',
     outputs: [
       {
@@ -39,13 +72,6 @@ const ABI = [
       },
     ],
     stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'pickWinner',
-    outputs: [],
-    stateMutability: 'nonpayable',
     type: 'function',
   },
   {

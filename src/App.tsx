@@ -6,12 +6,13 @@ import { RouterProvider } from 'react-router-dom';
 
 import { LoadingScreen } from '@components';
 import { ThemeMode } from '@constants';
-import { useThemeStore } from '@services/store';
+import { useLotteryStore, useThemeStore } from '@services/store';
 
 import { renderRoutes, routes } from './routes/routes';
 
 function App() {
   const appTheme = useThemeStore((state) => state.appTheme);
+  const getContractInfo = useLotteryStore((state) => state.getContractInfo);
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -19,6 +20,10 @@ function App() {
     root.classList.remove(prevTheme);
     root.classList.add(appTheme);
   }, [appTheme]);
+
+  useEffect(() => {
+    getContractInfo();
+  }, [getContractInfo]);
 
   return (
     <ConfigProvider
