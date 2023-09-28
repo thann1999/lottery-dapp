@@ -4,14 +4,13 @@ import { RouteObject, createBrowserRouter } from 'react-router-dom';
 
 import { RouteItem } from '@interfaces';
 import { DefaultLayout, EmptyLayout } from '@layouts';
+import NotFoundPage from '@pages/not-found';
 import { RouteKey } from '@root/constants';
 import { DefaultGuard } from '@root/guards';
+import LotteryPage from '@root/pages/lottery';
+import MintPage from '@root/pages/mint';
 
 import { PATH } from './path';
-
-const NotFoundPage = React.lazy(() => import('@pages/not-found'));
-const MintPage = React.lazy(() => import('@root/pages/mint'));
-const LotteryPage = React.lazy(() => import('@root/pages/lottery'));
 
 export const routes: RouteItem[] = [
   {

@@ -1,7 +1,7 @@
 import { Chain } from './chains';
 
 export interface WalletInfo {
-  accounts: any[];
+  accounts: string[];
   balance: string;
   chain: Chain;
 }
