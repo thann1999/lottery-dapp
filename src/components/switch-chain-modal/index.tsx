@@ -26,7 +26,7 @@ export default function SwitchChainModalBody({ closeModal }: ModalBodyProps) {
         <Button size="large" onClick={handleDisconnect}>
           Disconnect
         </Button>
-        <Button type="primary" size="large" onClick={switchNetwork}>
+        <Button type="primary" size="large" onClick={() => switchNetwork()}>
           Switch network
         </Button>
       </Space>
