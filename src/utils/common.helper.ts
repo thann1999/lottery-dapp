@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 
 import { web3 } from '@root/configs';
-import { chains } from '@root/constants';
+import { CHAINS } from '@root/constants';
 import { SelectOption } from '@root/interfaces';
 
 export const generateDataSource = <T>(data: T[], disableConditional?: (record: T) => boolean) => {
@@ -28,5 +28,5 @@ export const formatAddress = (addr = '') => {
 
 // Get chain info
 export const getChainInfo = (id: number) => {
-  return chains[id];
+  return CHAINS[id];
 };

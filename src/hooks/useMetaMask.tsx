@@ -12,7 +12,7 @@ import {
 import detectEthereumProvider from '@metamask/detect-provider';
 
 import { web3 } from '@root/configs';
-import { ChainId, LocalStorageKey, MetamaskRequestMethod } from '@root/constants';
+import { CHAINS, ChainId, LocalStorageKey, MetamaskRequestMethod } from '@root/constants';
 import { Chain, MetaMaskContextData, WalletInfo } from '@root/interfaces';
 import { getChainInfo } from '@root/utils';
 import { storageService } from '@services';
@@ -112,11 +112,31 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
     storageService.remove(LocalStorageKey.IsKeepConnect);
   };
 
-  const switchNetwork = () => {
-    window.ethereum?.request({
-      method: MetamaskRequestMethod.SwitchChain,
-      params: [{ chainId: web3.utils.numberToHex(ChainId.Sepolia) }],
-    });
+  const switchNetwork = (chainId: number = ChainId.Linea) => {
+    try {
+      window.ethereum?.request({
+        method: MetamaskRequestMethod.SwitchChain,
+        params: [{ chainId: web3.utils.numberToHex(chainId) }],
+      });
+    } catch (switchError: any) {
+      const newChain = CHAINS[chainId];
+      if (switchError.code === 4902 && newChain) {
+        try {
+          window.ethereum?.request({
+            method: MetamaskRequestMethod.AddChain,
+            params: [
+              {
+                chainId,
+                chainName: newChain.name,
+                rpcUrls: newChain.rpc /* ... */,
+              },
+            ],
+          });
+        } catch (addError) {
+          // handle "add" error
+        }
+      }
+    }
   };
 
   const contextValue = useMemo(

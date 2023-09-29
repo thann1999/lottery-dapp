@@ -1,6 +1,11 @@
+import { Contract } from 'web3';
+
+import { ChainId } from '@root/constants';
+
 import { web3 } from '../web3';
 
-const ADDRESS = '0xeb3C46A37f47058395B1DfC723491b3Ec62dA2F0';
+const SEPOLIA_ADDRESS = '0x6d5f6bb3513678790385dea79bebcc22901d2773';
+const LINEA_ADDRESS = '0xadbFf7014FFFdA7299B0E2D1B3D83B470DB30588';
 
 const ABI = [
   {
@@ -24,12 +29,12 @@ const ABI = [
   },
   {
     inputs: [],
-    name: 'checkEntered',
+    name: 'endDate',
     outputs: [
       {
-        internalType: 'bool',
+        internalType: 'uint256',
         name: '',
-        type: 'bool',
+        type: 'uint256',
       },
     ],
     stateMutability: 'view',
@@ -95,4 +100,9 @@ const ABI = [
   },
 ];
 
-export default new web3.eth.Contract(ABI, ADDRESS);
+const contract: Record<number, Contract<any>> = {
+  [ChainId.Sepolia]: new web3.eth.Contract(ABI, SEPOLIA_ADDRESS),
+  [ChainId.Linea]: new web3.eth.Contract(ABI, LINEA_ADDRESS),
+};
+
+export default contract;

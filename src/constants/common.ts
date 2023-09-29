@@ -30,6 +30,7 @@ export enum TimeZone {
 
 export enum MetamaskRequestMethod {
   SwitchChain = 'wallet_switchEthereumChain',
+  AddChain = 'wallet_addEthereumChain',
   Login = 'eth_requestAccounts',
 }
 

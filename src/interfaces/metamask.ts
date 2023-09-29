@@ -12,5 +12,5 @@ export interface MetaMaskContextData {
   isConnecting: boolean;
   connectMetaMask: () => void;
   disconnectMetaMask: () => void;
-  switchNetwork: () => void;
+  switchNetwork: (chainId: number) => void;
 }

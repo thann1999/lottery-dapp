@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 
-import { lotteryContract } from '@root/configs';
 import { LotteryContractState } from '@root/interfaces';
 
 const useLotteryStore = create<LotteryContractState>((set) => ({
@@ -8,7 +7,7 @@ const useLotteryStore = create<LotteryContractState>((set) => ({
   players: [],
   manager: '',
   isLoading: false,
-  getContractInfo: async () => {
+  getContractInfo: async (lotteryContract) => {
     set({
       isLoading: true,
     });

@@ -1,7 +1,7 @@
 /* eslint-disable no-template-curly-in-string */
-import { Chains, SelectOption } from '@root/interfaces';
+import { Chains } from '@root/interfaces';
 
-export const chains: Chains = {
+export const CHAINS: Chains = {
   1: {
     name: 'Ethereum Mainnet',
     chainId: 1,
@@ -2349,10 +2349,7 @@ export const chains: Chains = {
       'https://rpc2.sepolia.org',
       'https://rpc-sepolia.rockx.com',
       'https://rpc.sepolia.ethpandaops.io',
-      'https://sepolia.infura.io/v3/${INFURA_API_KEY}',
-      'wss://sepolia.infura.io/v3/${INFURA_API_KEY}',
-      'https://sepolia.gateway.tenderly.co',
-      'wss://sepolia.gateway.tenderly.co',
+      'https://sepolia.infura.io/v3/1473ef9b1ded446296ec8498fa8f816d',
     ],
     faucets: ['http://fauceth.komputing.org?chain=11155111&address=${ADDRESS}'],
     nativeCurrency: {
@@ -2376,6 +2373,26 @@ export const chains: Chains = {
         standard: 'EIP3091',
       },
     ],
+  },
+  59140: {
+    name: 'Linea',
+    chain: 'ETH',
+    network: 'testnet',
+    rpc: [
+      'https://linea-goerli.infura.io/v3/1473ef9b1ded446296ec8498fa8f816d',
+      'https://rpc.goerli.linea.build	',
+    ],
+    faucets: ['https://www.infura.io/faucet/linea'],
+    nativeCurrency: {
+      name: 'Linea Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    infoURL: 'https://goerli.lineascan.build',
+    shortName: 'sep',
+    chainId: 59140,
+    networkId: 59140,
+    explorers: [],
   },
 };
 
@@ -2539,4 +2556,5 @@ export enum ChainId {
   JoysDigitalTestNet = 99415706,
   WanchainTestnet = 999,
   Sepolia = 11155111,
+  Linea = 59140,
 }

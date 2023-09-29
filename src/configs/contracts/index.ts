@@ -1,1 +1,1 @@
-export { default as lotteryContract } from './lottery';
+export { default as LOTTERY_CONTRACT } from './lottery';

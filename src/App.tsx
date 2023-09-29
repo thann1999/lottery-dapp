@@ -6,6 +6,7 @@ import { RouterProvider } from 'react-router-dom';
 
 import { LoadingScreen } from '@components';
 import { ThemeMode } from '@constants';
+import { useLotteryContract } from '@hooks';
 import { useLotteryStore, useThemeStore } from '@services/store';
 
 import { renderRoutes, routes } from './routes/routes';
@@ -13,6 +14,7 @@ import { renderRoutes, routes } from './routes/routes';
 function App() {
   const appTheme = useThemeStore((state) => state.appTheme);
   const getContractInfo = useLotteryStore((state) => state.getContractInfo);
+  const { lotteryContract } = useLotteryContract();
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -22,8 +24,8 @@ function App() {
   }, [appTheme]);
 
   useEffect(() => {
-    getContractInfo();
-  }, [getContractInfo]);
+    getContractInfo(lotteryContract);
+  }, [getContractInfo, lotteryContract]);
 
   return (
     <ConfigProvider

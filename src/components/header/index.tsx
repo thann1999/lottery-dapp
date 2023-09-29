@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import { useMatches, useNavigate } from 'react-router-dom';
 
 import logo from '@assets/images/logo.png';
-import { ChainId, HEADER_MENU, ModalSize, chains } from '@root/constants';
+import { ChainId, HEADER_MENU, ModalSize, CHAINS } from '@root/constants';
 import { useMetaMask, useModal } from '@root/hooks';
 import { formatAddress, getMintPath } from '@root/utils';
 import variables from '@styles/_variables.module.scss';
@@ -22,17 +22,26 @@ export const SUPPORTED_CHAINS = [
     label: (
       <div className="flex items-center h-full">
         <Icon icon="cryptocurrency-color:eth" fontSize={18} />
-        <Typography.Text className="ml-2">{chains[ChainId.Sepolia].name}</Typography.Text>
+        <Typography.Text className="ml-2">{CHAINS[ChainId.Sepolia].name}</Typography.Text>
       </div>
     ),
     value: ChainId.Sepolia,
+  },
+  {
+    label: (
+      <div className="flex items-center h-full">
+        <Icon icon="cryptocurrency-color:eth" fontSize={18} />
+        <Typography.Text className="ml-2">{CHAINS[ChainId.Linea].name}</Typography.Text>
+      </div>
+    ),
+    value: ChainId.Linea,
   },
 ];
 
 export default function HeaderComponent() {
   const [openSetting, setOpenSetting] = useState(false);
   const navigate = useNavigate();
-  const { wallet, hasProvider, isConnecting, connectMetaMask } = useMetaMask();
+  const { wallet, hasProvider, isConnecting, connectMetaMask, switchNetwork } = useMetaMask();
   const { open: openDetailWallet, ModalComponent: DetailWalletModal } = useModal({
     modalBody: DetailWalletModalBody,
     displayFooter: false,
@@ -95,6 +104,10 @@ export default function HeaderComponent() {
     navigate(href);
   };
 
+  const handleChangeChain = (value: number) => {
+    switchNetwork(value);
+  };
+
   return (
     <>
       <Header className="flex items-center justify-between xl:px-32 bg-transparent h-20">
@@ -132,7 +145,8 @@ export default function HeaderComponent() {
             <Select
               size="large"
               options={SUPPORTED_CHAINS}
-              defaultValue={SUPPORTED_CHAINS[0].value}
+              onChange={handleChangeChain}
+              value={isCorrectChain ? wallet.chain?.chainId : SUPPORTED_CHAINS[0].value}
               className="w-36 mx-4"
             />
           )}

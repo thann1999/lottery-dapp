@@ -4,8 +4,8 @@ import { Icon } from '@iconify/react';
 import { Button, Space, Typography } from 'antd';
 import clsx from 'clsx';
 
-import { lotteryContract, web3 } from '@root/configs';
-import { useMetaMask } from '@root/hooks';
+import { useLotteryContract, useMetaMask } from '@hooks';
+import { web3 } from '@root/configs';
 import { useLotteryStore } from '@root/services/store';
 
 export default function MintPage() {
@@ -13,9 +13,10 @@ export default function MintPage() {
   const [isEntering, setIsEntering] = useState(false);
   const [isPicking, setIsPicking] = useState(false);
   const { wallet } = useMetaMask();
+  const { lotteryContract } = useLotteryContract();
 
   const isAlreadyEntered = useMemo(
-    () => !!players.find((address) => address === wallet.accounts[0]),
+    () => !!players.find((address) => address?.toLowerCase() === wallet.accounts[0]),
     [players, wallet.accounts]
   );
 
@@ -24,7 +25,7 @@ export default function MintPage() {
       setIsEntering(true);
       await lotteryContract.methods.enter().send({
         from: wallet.accounts[0],
-        value: web3.utils.toWei('0.01', 'ether'),
+        value: web3.utils.toWei('0.002', 'ether'),
       });
       setIsEntering(false);
     } catch (error) {
@@ -37,6 +38,7 @@ export default function MintPage() {
       setIsPicking(true);
       await lotteryContract.methods.pickWinner().send({
         from: wallet.accounts[0],
+        gas: '3000000',
       });
       setIsPicking(false);
     } catch (error) {
@@ -61,10 +63,10 @@ export default function MintPage() {
           onClick={handleEnterLottery}
         >
           {isAlreadyEntered ? (
-            <div className="flex items-center">
-              <Typography>You already entered</Typography>
-              <Icon icon="ion:ticket" fontSize={18} className="text-yellow-400 ml-1" />
-            </div>
+            <Typography.Text className="flex items-center">
+              You already entered
+              <Icon icon="ion:ticket" fontSize={18} className="text-yellow-400 ml-2" />
+            </Typography.Text>
           ) : (
             'ENTER THE LOTTERY'
           )}
