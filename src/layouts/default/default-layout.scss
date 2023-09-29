@@ -1,0 +1,17 @@
+@import '@styles/variables';
+
+.bg-light {
+  @apply bg-bg-light;
+}
+
+.bg-dark {
+  // background: $color-bg-dark;  /* fallback for old browsers */
+  // background: -webkit-linear-gradient(to right, #1d2230,  $color-bg-dark, #1d2230);  /* Chrome 10-25, Safari 5.1-6 */
+  // background: linear-gradient(to right, #1d2230,  $color-bg-dark, #1d2230); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-image: url('../../assets/images/dark-bg.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: rgba(#000000, 0.5);
+  background-blend-mode: multiply;
+}

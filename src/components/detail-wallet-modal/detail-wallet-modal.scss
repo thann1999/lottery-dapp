@@ -1,0 +1,11 @@
+.detail-wallet-modal {
+  .card-wallet {
+    background: linear-gradient(246.01deg,#1B70D5 2.11%,#052055 97.26%)
+  }
+
+  .text-copyable {
+    svg {
+      @apply text-white;
+    }
+  }
+}

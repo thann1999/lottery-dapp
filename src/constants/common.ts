@@ -1,4 +1,5 @@
-import { Option } from '@root/interfaces';
+import { HeaderMenuItem, Option } from '@root/interfaces';
+import { getLotteryPath, getMintPath } from '@root/utils';
 
 export const WEBSITE_NAME = 'Web3';
 
@@ -15,11 +16,22 @@ export enum CookieKey {
   LANGUAGE = 'language',
 }
 
+export enum LocalStorageKey {
+  IsKeepConnect = 'keep-connect',
+  Theme = 'theme',
+}
+
 export const PAGE_404_PATH = '/404';
 
 export enum TimeZone {
   VIET_NAM = 7,
   UTC = 0,
+}
+
+export enum MetamaskRequestMethod {
+  SwitchChain = 'wallet_switchEthereumChain',
+  AddChain = 'wallet_addEthereumChain',
+  Login = 'eth_requestAccounts',
 }
 
 export enum Message {
@@ -65,3 +77,28 @@ export enum ColumnType {
 }
 
 export const ALL_STATUS: Option = { label: 'common.all', value: '' };
+
+export enum RouteKey {
+  MintNFT = 'mint-nft',
+  Stake = 'stake',
+  Lottery = 'lottery',
+}
+
+export const HEADER_MENU: HeaderMenuItem[] = [
+  {
+    label: 'Mint',
+    href: getMintPath(),
+    key: RouteKey.MintNFT,
+  },
+  {
+    label: 'Lottery',
+    href: getLotteryPath(),
+    key: RouteKey.Lottery,
+  },
+  {
+    label: 'Stake (Coming soon)',
+    href: '',
+    key: RouteKey.Stake,
+    isDisabled: true,
+  },
+];

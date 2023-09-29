@@ -6,8 +6,6 @@ import { ColumnType } from 'antd/es/table';
 
 import { ColumnTableType } from '@root/constants';
 
-import { SelectOption } from './common';
-
 export interface MoreActionProps<T> {
   selectedRowData: T[];
 }
@@ -71,31 +69,6 @@ export interface DataTableColumn extends Omit<ColumnType<any>, 'sorter'> {
   children?: DataTableColumn[];
 }
 
-export interface TextCopyableProps {
-  value: string;
-  recordValue: Record<string, any>;
-  handleClickText?: (value: Record<string, any>) => void;
-}
-
-export interface ToastMessageProps {
-  i18nKey: string;
-}
-
-export interface HeaderProps {
-  isDisplayLogo?: boolean;
-  isHiddenRegionSelect?: boolean;
-}
-
-export interface RegionHeaderSelect {
-  OPTIONS: SelectOption;
-  REGION_PROJECT: Record<string, string>;
-}
-
-export interface CircularProgressProps {
-  size: number;
-  strokeWidth: number;
-  percentage: number;
-  color: string;
-  used: number;
-  total: number;
+export interface SettingWebProps {
+  handleClose: () => void;
 }

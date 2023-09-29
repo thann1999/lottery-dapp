@@ -3,12 +3,14 @@ import React, { Fragment } from 'react';
 import { RouteObject, createBrowserRouter } from 'react-router-dom';
 
 import { RouteItem } from '@interfaces';
-import { EmptyLayout } from '@layouts';
+import { DefaultLayout, EmptyLayout } from '@layouts';
+import NotFoundPage from '@pages/not-found';
+import { RouteKey } from '@root/constants';
+import { DefaultGuard } from '@root/guards';
+import LotteryPage from '@root/pages/lottery';
+import MintPage from '@root/pages/mint';
 
 import { PATH } from './path';
-
-const NotFoundPage = React.lazy(() => import('@pages/not-found'));
-const HomePage = React.lazy(() => import('@pages/home'));
 
 export const routes: RouteItem[] = [
   {
@@ -16,8 +18,27 @@ export const routes: RouteItem[] = [
     component: NotFoundPage,
   },
   {
-    path: PATH.home,
-    component: HomePage,
+    path: PATH.root,
+    layout: DefaultLayout,
+    guard: DefaultGuard,
+    routes: [
+      {
+        path: PATH.mint,
+        component: MintPage,
+        handle: {
+          pageTitle: 'Mint',
+          key: RouteKey.MintNFT,
+        },
+      },
+      {
+        path: PATH.lottery,
+        component: LotteryPage,
+        handle: {
+          pageTitle: 'Lottery',
+          key: RouteKey.Lottery,
+        },
+      },
+    ],
   },
 ];
 
