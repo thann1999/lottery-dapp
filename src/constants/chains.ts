@@ -2379,8 +2379,8 @@ export const CHAINS: Chains = {
     chain: 'ETH',
     network: 'testnet',
     rpc: [
+      'https://rpc.goerli.linea.build',
       'https://linea-goerli.infura.io/v3/1473ef9b1ded446296ec8498fa8f816d',
-      'https://rpc.goerli.linea.build	',
     ],
     faucets: ['https://www.infura.io/faucet/linea'],
     nativeCurrency: {

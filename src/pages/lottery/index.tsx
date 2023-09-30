@@ -9,7 +9,7 @@ import { web3 } from '@root/configs';
 import { useLotteryStore } from '@root/services/store';
 
 export default function MintPage() {
-  const { isLoading, lotteryCount, manager, players } = useLotteryStore();
+  const { isLoading, lotteryCount, manager, players, getNewPlayers } = useLotteryStore();
   const [isEntering, setIsEntering] = useState(false);
   const [isPicking, setIsPicking] = useState(false);
   const { wallet } = useMetaMask();
@@ -25,8 +25,9 @@ export default function MintPage() {
       setIsEntering(true);
       await lotteryContract.methods.enter().send({
         from: wallet.accounts[0],
-        value: web3.utils.toWei('0.002', 'ether'),
+        value: web3.utils.toWei('0.0015', 'ether'),
       });
+      await getNewPlayers(lotteryContract);
       setIsEntering(false);
     } catch (error) {
       setIsEntering(false);
@@ -38,7 +39,6 @@ export default function MintPage() {
       setIsPicking(true);
       await lotteryContract.methods.pickWinner().send({
         from: wallet.accounts[0],
-        gas: '3000000',
       });
       setIsPicking(false);
     } catch (error) {
@@ -63,9 +63,9 @@ export default function MintPage() {
           onClick={handleEnterLottery}
         >
           {isAlreadyEntered ? (
-            <Typography.Text className="flex items-center">
+            <Typography.Text style={{ display: 'flex', alignItems: 'center' }}>
               You already entered
-              <Icon icon="ion:ticket" fontSize={18} className="text-yellow-400 ml-2" />
+              <Icon icon="ion:ticket" fontSize={16} className="text-yellow-400 ml-2" />
             </Typography.Text>
           ) : (
             'ENTER THE LOTTERY'

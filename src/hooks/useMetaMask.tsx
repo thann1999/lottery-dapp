@@ -48,7 +48,7 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
     const balance = Number(
       await web3.utils.fromWei(await web3.eth.getBalance(accounts[0]), 'ether')
     );
-    const chainIdHex = await web3.eth.getChainId(accounts[0]);
+    const chainIdHex = await web3.eth.getChainId();
     const chainId = Number(chainIdHex);
 
     // When user connect wrong network

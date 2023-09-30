@@ -1,11 +1,11 @@
-import { Contract } from 'web3';
+import Web3 from 'web3';
 
 import { ChainId } from '@root/constants';
 
 import { web3 } from '../web3';
 
-const SEPOLIA_ADDRESS = '0x6d5f6bb3513678790385dea79bebcc22901d2773';
-const LINEA_ADDRESS = '0xadbFf7014FFFdA7299B0E2D1B3D83B470DB30588';
+const SEPOLIA_ADDRESS = '0xD00EdCC5d830615A3e2fa1185835E36C6621b5f6';
+const LINEA_ADDRESS = '0x75EbF3e59f8F7A1B9E8796DCdf92A0A8bcED838d';
 
 const ABI = [
   {
@@ -29,38 +29,12 @@ const ABI = [
   },
   {
     inputs: [],
-    name: 'endDate',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
     name: 'getPlayers',
     outputs: [
       {
-        internalType: 'address[]',
+        internalType: 'address payable[]',
         name: '',
         type: 'address[]',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'lotteryCount',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
       },
     ],
     stateMutability: 'view',
@@ -90,7 +64,7 @@ const ABI = [
     name: 'players',
     outputs: [
       {
-        internalType: 'address',
+        internalType: 'address payable',
         name: '',
         type: 'address',
       },
@@ -98,9 +72,9 @@ const ABI = [
     stateMutability: 'view',
     type: 'function',
   },
-];
+] as any;
 
-const contract: Record<number, Contract<any>> = {
+const contract: Record<number, any> = {
   [ChainId.Sepolia]: new web3.eth.Contract(ABI, SEPOLIA_ADDRESS),
   [ChainId.Linea]: new web3.eth.Contract(ABI, LINEA_ADDRESS),
 };
