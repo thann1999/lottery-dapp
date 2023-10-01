@@ -1,6 +1,8 @@
 import { HeaderMenuItem, Option } from '@root/interfaces';
 import { getLotteryPath, getMintPath } from '@root/utils';
 
+import { ChainId } from './chains';
+
 export const WEBSITE_NAME = 'Web3';
 
 export const DEFAULT_STALE_TIME = 5 * 60 * 1000;
@@ -102,3 +104,8 @@ export const HEADER_MENU: HeaderMenuItem[] = [
     isDisabled: true,
   },
 ];
+
+export enum SupportChainId {
+  Linea = ChainId.Linea,
+  Sepolia = ChainId.Sepolia,
+}

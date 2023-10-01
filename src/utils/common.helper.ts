@@ -1,6 +1,3 @@
-import { t } from 'i18next';
-
-import { web3 } from '@root/configs';
 import { CHAINS } from '@root/constants';
 import { SelectOption } from '@root/interfaces';
 
@@ -15,7 +12,7 @@ export const generateDataSource = <T>(data: T[], disableConditional?: (record: T
 };
 
 export const translateOptions = (data: SelectOption): SelectOption => {
-  return data?.map((item) => ({ ...item, label: t(item.label as string) }));
+  return data?.map((item) => ({ ...item, label: item.label as string }));
 };
 
 export const formatChainAsNum = (chainIdHex = '') => {

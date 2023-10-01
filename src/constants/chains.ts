@@ -2357,7 +2357,7 @@ export const CHAINS: Chains = {
       symbol: 'ETH',
       decimals: 18,
     },
-    infoURL: 'https://sepolia.otterscan.io',
+    infoURL: 'https://sepolia.etherscan.io',
     shortName: 'sep',
     chainId: 11155111,
     networkId: 11155111,

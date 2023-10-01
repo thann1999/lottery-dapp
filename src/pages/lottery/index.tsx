@@ -1,18 +1,18 @@
 import { useMemo, useState } from 'react';
 
 import { Icon } from '@iconify/react';
-import { Button, Space, Typography } from 'antd';
+import { Button, Space, Tooltip, Typography } from 'antd';
 import clsx from 'clsx';
 
 import { useLotteryContract, useMetaMask } from '@hooks';
 import { web3 } from '@root/configs';
 import { useLotteryStore } from '@root/services/store';
 
-export default function MintPage() {
+export default function LotteryPage() {
   const { isLoading, lotteryCount, manager, players, getNewPlayers } = useLotteryStore();
   const [isEntering, setIsEntering] = useState(false);
   const [isPicking, setIsPicking] = useState(false);
-  const { wallet } = useMetaMask();
+  const { wallet, isCorrectChain } = useMetaMask();
   const { lotteryContract } = useLotteryContract();
 
   const isAlreadyEntered = useMemo(
@@ -55,22 +55,26 @@ export default function MintPage() {
       </Typography>
 
       <Space direction="horizontal" align="center" className="mt-8" size="large">
-        <Button
-          type="primary"
-          size="large"
-          loading={isLoading || isEntering}
-          disabled={isAlreadyEntered}
-          onClick={handleEnterLottery}
-        >
-          {isAlreadyEntered ? (
-            <Typography.Text style={{ display: 'flex', alignItems: 'center' }}>
-              You already entered
-              <Icon icon="ion:ticket" fontSize={16} className="text-yellow-400 ml-2" />
-            </Typography.Text>
-          ) : (
-            'ENTER THE LOTTERY'
-          )}
-        </Button>
+        <Tooltip title={isCorrectChain ? '' : 'Unsupported Network'}>
+          <Button
+            type="primary"
+            size="large"
+            loading={isLoading || isEntering}
+            disabled={isAlreadyEntered || !isCorrectChain}
+            onClick={handleEnterLottery}
+            className="flex items-center"
+          >
+            {isAlreadyEntered ? (
+              <Typography.Text style={{ display: 'flex', alignItems: 'center' }}>
+                You already entered
+                <Icon icon="ion:ticket" fontSize={16} className="text-yellow-400 ml-2" />
+              </Typography.Text>
+            ) : (
+              'ENTER THE LOTTERY'
+            )}
+          </Button>
+        </Tooltip>
+
         <Button type="primary" size="large">
           HOW IT WORK
         </Button>
@@ -79,7 +83,7 @@ export default function MintPage() {
       <Typography className="mt-8 text-2xl">
         Lottery Count:{' '}
         <span className={clsx({ 'text-red-600': players?.length > 15 })}>
-          {players?.length} / 20
+          {players?.length} / 1000
         </span>
       </Typography>
       <Typography className="text-zinc-500 font-medium text-lg italic">
@@ -88,13 +92,14 @@ export default function MintPage() {
       <Typography className="mt-8 text-2xl">Lottery Finish: {lotteryCount} Entrants</Typography>
       <Typography className="mt-2 text-lg">Enter now and reveal the winner instantly!</Typography>
 
-      {manager.toLocaleLowerCase() === wallet.accounts[0] && (
+      {manager.toLocaleLowerCase() === wallet.accounts[0] && isCorrectChain && (
         <Button
           type="primary"
           size="large"
           className="mt-8 w-[350px]"
           onClick={handlePickWinner}
           loading={isPicking}
+          disabled={!isCorrectChain}
         >
           PICK WINNER
         </Button>
