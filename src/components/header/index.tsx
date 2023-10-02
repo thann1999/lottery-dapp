@@ -6,10 +6,9 @@ import clsx from 'clsx';
 import { useMatches, useNavigate } from 'react-router-dom';
 
 import logo from '@assets/images/logo.png';
-import { ChainId, HEADER_MENU, ModalSize, CHAINS } from '@root/constants';
+import { ChainId, HEADER_MENU, ModalSize, CHAINS, SupportChainId } from '@root/constants';
 import { useMetaMask, useModal } from '@root/hooks';
 import { formatAddress, getMintPath } from '@root/utils';
-import variables from '@styles/_variables.module.scss';
 
 import DetailWalletModalBody from '../detail-wallet-modal';
 import SettingWeb from '../setting-web/SettingWeb';
@@ -25,7 +24,7 @@ export const SUPPORTED_CHAINS = [
         <Typography.Text className="ml-2">{CHAINS[ChainId.Sepolia].name}</Typography.Text>
       </div>
     ),
-    value: ChainId.Sepolia,
+    value: SupportChainId.Sepolia,
   },
   {
     label: (
@@ -34,14 +33,15 @@ export const SUPPORTED_CHAINS = [
         <Typography.Text className="ml-2">{CHAINS[ChainId.Linea].name}</Typography.Text>
       </div>
     ),
-    value: ChainId.Linea,
+    value: SupportChainId.Linea,
   },
 ];
 
 export default function HeaderComponent() {
   const [openSetting, setOpenSetting] = useState(false);
   const navigate = useNavigate();
-  const { wallet, hasProvider, isConnecting, connectMetaMask, switchNetwork } = useMetaMask();
+  const { wallet, hasProvider, isConnecting, connectMetaMask, switchNetwork, isCorrectChain } =
+    useMetaMask();
   const { open: openDetailWallet, ModalComponent: DetailWalletModal } = useModal({
     modalBody: DetailWalletModalBody,
     displayFooter: false,
@@ -60,11 +60,6 @@ export default function HeaderComponent() {
   const queryMatches = matches.filter((item) => !!item.handle);
   const activeKey = (queryMatches.filter((item) => !!(item.handle as any)?.key)[0]?.handle as any)
     ?.key;
-
-  const isCorrectChain = useMemo(
-    () => !!SUPPORTED_CHAINS.find((item) => item.value === wallet.chain?.chainId),
-    [wallet.chain]
-  );
 
   useEffect(() => {
     if (!wallet.accounts?.length) {
@@ -124,7 +119,7 @@ export default function HeaderComponent() {
               key={item.key}
               onClick={() => handleNavigate(item.href, item.isDisabled)}
               // disabled={item.isDisabled}
-              className={clsx('font-medium  text-base hidden md:block text ml-10', {
+              className={clsx('font-medium  text-base hidden lg:block text ml-10', {
                 'text-primary': activeKey === item.key,
                 'cursor-pointer': !item.isDisabled,
               })}
@@ -146,7 +141,7 @@ export default function HeaderComponent() {
               size="large"
               options={SUPPORTED_CHAINS}
               onChange={handleChangeChain}
-              value={isCorrectChain ? wallet.chain?.chainId : SUPPORTED_CHAINS[0].value}
+              value={isCorrectChain ? wallet.chain?.chainId : SupportChainId.Sepolia}
               className="w-36 mx-4"
             />
           )}

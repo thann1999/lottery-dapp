@@ -12,7 +12,13 @@ import {
 import detectEthereumProvider from '@metamask/detect-provider';
 
 import { web3 } from '@root/configs';
-import { CHAINS, ChainId, LocalStorageKey, MetamaskRequestMethod } from '@root/constants';
+import {
+  CHAINS,
+  ChainId,
+  LocalStorageKey,
+  MetamaskRequestMethod,
+  SupportChainId,
+} from '@root/constants';
 import { Chain, MetaMaskContextData, WalletInfo } from '@root/interfaces';
 import { getChainInfo } from '@root/utils';
 import { storageService } from '@services';
@@ -24,6 +30,7 @@ const MetaMaskContext = createContext<MetaMaskContextData>({} as MetaMaskContext
 export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
   const [hasProvider, setHasProvider] = useState<boolean | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
+  const [isCorrectChain, setIsCorrectChain] = useState(true);
   const [wallet, setWallet] = useState(disconnectedState);
 
   const updateWallet = useCallback(async (providedAccounts?: any, isChangeChain?: boolean) => {
@@ -43,19 +50,24 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
     }
 
     // When user not login
-    if (!accounts) return;
+    if (!accounts) {
+      setIsCorrectChain(false);
+      return;
+    }
 
     const balance = Number(
       await web3.utils.fromWei(await web3.eth.getBalance(accounts[0]), 'ether')
     );
-    const chainIdHex = await web3.eth.getChainId(accounts[0]);
+    const chainIdHex = await web3.eth.getChainId();
     const chainId = Number(chainIdHex);
 
     // When user connect wrong network
-    if (chainId !== ChainId.Sepolia && !isChangeChain) {
+    const isCorrectChain = [SupportChainId.Linea, SupportChainId.Sepolia].includes(chainId);
+    if (!isCorrectChain && !isChangeChain) {
       switchNetwork();
     }
 
+    setIsCorrectChain(isCorrectChain);
     setWallet({
       accounts,
       balance: balance > 0 ? balance.toFixed(4) : '0',
@@ -112,7 +124,7 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
     storageService.remove(LocalStorageKey.IsKeepConnect);
   };
 
-  const switchNetwork = (chainId: number = ChainId.Linea) => {
+  const switchNetwork = (chainId: number = ChainId.Sepolia) => {
     try {
       window.ethereum?.request({
         method: MetamaskRequestMethod.SwitchChain,
@@ -144,12 +156,13 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
       wallet,
       hasProvider,
       isConnecting,
+      isCorrectChain,
       connectMetaMask,
       disconnectMetaMask,
       switchNetwork,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [wallet, hasProvider, isConnecting]
+    [wallet, hasProvider, isConnecting, isCorrectChain]
   );
 
   return <MetaMaskContext.Provider value={contextValue}>{children}</MetaMaskContext.Provider>;

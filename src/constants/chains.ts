@@ -2357,7 +2357,7 @@ export const CHAINS: Chains = {
       symbol: 'ETH',
       decimals: 18,
     },
-    infoURL: 'https://sepolia.otterscan.io',
+    infoURL: 'https://sepolia.etherscan.io',
     shortName: 'sep',
     chainId: 11155111,
     networkId: 11155111,
@@ -2379,8 +2379,8 @@ export const CHAINS: Chains = {
     chain: 'ETH',
     network: 'testnet',
     rpc: [
+      'https://rpc.goerli.linea.build',
       'https://linea-goerli.infura.io/v3/1473ef9b1ded446296ec8498fa8f816d',
-      'https://rpc.goerli.linea.build	',
     ],
     faucets: ['https://www.infura.io/faucet/linea'],
     nativeCurrency: {

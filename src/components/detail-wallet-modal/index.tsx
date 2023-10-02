@@ -16,7 +16,7 @@ export default function DetailWalletModalBody({ closeModal }: ModalBodyProps) {
   }
 
   const handleOpenEtherscan = () => {
-    window.open(`https://sepolia.etherscan.io/address/${wallet.accounts[0]}`, '_blank');
+    window.open(`${wallet.chain?.infoURL}/address/${wallet.accounts[0]}`, '_blank');
   };
 
   const handleDisconnect = () => {
