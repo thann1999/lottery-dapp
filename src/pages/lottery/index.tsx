@@ -40,6 +40,7 @@ export default function LotteryPage() {
       await lotteryContract.methods.pickWinner().send({
         from: wallet.accounts[0],
       });
+      await getNewPlayers(lotteryContract);
       setIsPicking(false);
     } catch (error) {
       setIsPicking(false);

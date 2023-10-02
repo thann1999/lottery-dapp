@@ -30,7 +30,7 @@ const MetaMaskContext = createContext<MetaMaskContextData>({} as MetaMaskContext
 export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
   const [hasProvider, setHasProvider] = useState<boolean | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
-  const [isCorrectChain, setIsCorrectChain] = useState(true);
+  const [isCorrectChain, setIsCorrectChain] = useState(false);
   const [wallet, setWallet] = useState(disconnectedState);
 
   const updateWallet = useCallback(async (providedAccounts?: any, isChangeChain?: boolean) => {
@@ -121,6 +121,7 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
 
   const disconnectMetaMask = () => {
     setWallet(disconnectedState);
+    setIsCorrectChain(false);
     storageService.remove(LocalStorageKey.IsKeepConnect);
   };
 

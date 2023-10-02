@@ -100,7 +100,9 @@ export default function HeaderComponent() {
   };
 
   const handleChangeChain = (value: number) => {
-    switchNetwork(value);
+    if (wallet.accounts[0]) {
+      switchNetwork(value);
+    }
   };
 
   return (
@@ -141,7 +143,8 @@ export default function HeaderComponent() {
               size="large"
               options={SUPPORTED_CHAINS}
               onChange={handleChangeChain}
-              value={isCorrectChain ? wallet.chain?.chainId : SupportChainId.Sepolia}
+              defaultValue={wallet.chain?.chainId || SupportChainId.Sepolia}
+              // value={isCorrectChain ? wallet.chain?.chainId : SupportChainId.Sepolia}
               className="w-36 mx-4"
             />
           )}
