@@ -3,13 +3,24 @@ import { useMemo, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { Button, Space, Tooltip, Typography } from 'antd';
 import clsx from 'clsx';
+import Countdown, { CountdownRenderProps } from 'react-countdown';
 
 import { useLotteryContract, useMetaMask } from '@hooks';
 import { web3 } from '@root/configs';
 import { useLotteryStore } from '@root/services/store';
 
+const renderer = ({ hours, minutes, seconds, days }: CountdownRenderProps) => {
+  // Render a countdown
+  return (
+    <span>
+      {days}:{hours}:{minutes}:{seconds}
+    </span>
+  );
+};
+
 export default function LotteryPage() {
-  const { isLoading, lotteryCount, manager, players, getNewPlayers } = useLotteryStore();
+  const { isLoading, lotteryCount, manager, players, endDate, getNewPlayers, getContractInfo } =
+    useLotteryStore();
   const [isEntering, setIsEntering] = useState(false);
   const [isPicking, setIsPicking] = useState(false);
   const { wallet, isCorrectChain } = useMetaMask();
@@ -40,7 +51,7 @@ export default function LotteryPage() {
       await lotteryContract.methods.pickWinner().send({
         from: wallet.accounts[0],
       });
-      await getNewPlayers(lotteryContract);
+      await getContractInfo(lotteryContract);
       setIsPicking(false);
     } catch (error) {
       setIsPicking(false);
@@ -54,6 +65,8 @@ export default function LotteryPage() {
       <Typography className="text-zinc-300 font-medium text-lg mt-8">
         Time left to join lottery #{lotteryCount + 1}
       </Typography>
+
+      <div>{endDate && <Countdown date={new Date(endDate)} renderer={renderer} />}</div>
 
       <Space direction="horizontal" align="center" className="mt-8" size="large">
         <Tooltip title={isCorrectChain ? '' : 'Unsupported Network'}>

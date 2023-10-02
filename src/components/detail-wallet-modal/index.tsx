@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { Icon } from '@iconify/react';
 import { Card, Tooltip, Typography } from 'antd';
 
@@ -6,6 +8,7 @@ import noTxsLight from '@assets/images/no-txs-light-theme.png';
 import { useMetaMask } from '@root/hooks';
 import { ModalBodyProps } from '@root/interfaces';
 import { formatAddress } from '@root/utils';
+
 import './detail-wallet-modal.scss';
 
 export default function DetailWalletModalBody({ closeModal }: ModalBodyProps) {

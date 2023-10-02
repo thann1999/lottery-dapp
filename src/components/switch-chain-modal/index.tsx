@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { Button, Space, Typography } from 'antd';
 
 import switchNetworkImg from '@assets/images/switch-network.png';
@@ -5,11 +7,18 @@ import { useMetaMask } from '@root/hooks';
 import { ModalBodyProps } from '@root/interfaces';
 
 export default function SwitchChainModalBody({ closeModal }: ModalBodyProps) {
+  const [isLoading, setIsLoading] = useState(false);
   const { disconnectMetaMask, switchNetwork } = useMetaMask();
 
   const handleDisconnect = () => {
     disconnectMetaMask();
     closeModal();
+  };
+
+  const handleSwitchNetwork = async () => {
+    setIsLoading(true);
+    await switchNetwork();
+    setIsLoading(false);
   };
 
   return (
@@ -26,7 +35,7 @@ export default function SwitchChainModalBody({ closeModal }: ModalBodyProps) {
         <Button size="large" onClick={handleDisconnect}>
           Disconnect
         </Button>
-        <Button type="primary" size="large" onClick={() => switchNetwork()}>
+        <Button type="primary" size="large" onClick={handleSwitchNetwork} loading={isLoading}>
           Switch network
         </Button>
       </Space>

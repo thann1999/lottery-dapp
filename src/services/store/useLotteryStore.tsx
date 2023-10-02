@@ -6,6 +6,7 @@ const useLotteryStore = create<LotteryContractState>((set) => ({
   lotteryCount: 0,
   players: [],
   manager: '',
+  endDate: 0,
   isLoading: false,
   getContractInfo: async (lotteryContract) => {
     set({
@@ -15,6 +16,7 @@ const useLotteryStore = create<LotteryContractState>((set) => ({
       lotteryContract.methods.manager().call() as Promise<string>,
       lotteryContract.methods.lotteryCount().call() as Promise<number>,
       lotteryContract.methods.getPlayers().call() as Promise<string[]>,
+      lotteryContract.methods.endDate().call() as Promise<string>,
     ]);
 
     set({
@@ -22,6 +24,7 @@ const useLotteryStore = create<LotteryContractState>((set) => ({
       manager: info[0],
       lotteryCount: Number(info[1]) || 0,
       players: info[2],
+      endDate: Number(info[3]) * 1000 || 0,
     });
   },
   getNewPlayers: async (lotteryContract) => {
