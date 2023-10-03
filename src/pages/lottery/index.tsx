@@ -1,21 +1,27 @@
 import { useMemo, useState } from 'react';
 
 import { Icon } from '@iconify/react';
-import { Button, Space, Tooltip, Typography } from 'antd';
+import { Button, Space, Statistic, Tooltip, Typography } from 'antd';
 import clsx from 'clsx';
 import Countdown, { CountdownRenderProps } from 'react-countdown';
+import CountUp from 'react-countup';
 
 import { useLotteryContract, useMetaMask } from '@hooks';
 import { web3 } from '@root/configs';
 import { useLotteryStore } from '@root/services/store';
 
 import { TimerCountdown } from './components/TimerCountdown';
+
 import './lottery.scss';
 
 const renderer = ({ hours, minutes, seconds, days }: CountdownRenderProps) => {
   // Render a countdown
   return <TimerCountdown hours={hours} days={days} seconds={seconds} minutes={minutes} />;
 };
+
+const formatter = (value: string | number) => (
+  <CountUp className="text-5xl font-bold" end={+value} suffix="$" />
+);
 
 export default function LotteryPage() {
   const { isLoading, lotteryCount, manager, players, endDate, getNewPlayers, getContractInfo } =
@@ -60,6 +66,8 @@ export default function LotteryPage() {
   return (
     <div className="w-[50%] mt-40 mx-auto text-center lottery-page">
       <Typography className="text-6xl font-bold">The Defi Lottery</Typography>
+
+      <Statistic value={5000} formatter={formatter} className="mt-6" />
 
       <Typography className="text-zinc-300 font-medium text-lg mt-8">
         Time left to join lottery #{lotteryCount + 1}

@@ -1,27 +1,19 @@
-@import "variables";
+@import 'variables';
 
-.countdown-unit {
-  @apply w-16 h-16 text-center bg-[#1677ff]/10 pt-1.5 rounded-lg;
-
-  .ant-typography:first-child {
-    @apply text-xl font-semibold
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
 
-@keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
-}
-
 .button-high-light {
-  background: linear-gradient(90deg, $color-primary, #f947d2,#fedc6f );
-	background-size: 400% 400%;
-	animation: gradient 15s ease infinite;
+  background: linear-gradient(90deg, $color-primary, #f947d2, #fedc6f);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
 }

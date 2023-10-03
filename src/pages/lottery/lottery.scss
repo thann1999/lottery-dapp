@@ -10,4 +10,12 @@
       }
     }
   }
+
+  .countdown-unit {
+    @apply w-16 h-16 text-center bg-[#1677ff]/10 pt-1.5 rounded-lg;
+
+    .ant-typography:first-child {
+      @apply text-xl font-semibold;
+    }
+  }
 }
