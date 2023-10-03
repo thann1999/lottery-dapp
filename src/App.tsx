@@ -8,6 +8,7 @@ import { LoadingScreen } from '@components';
 import { ThemeMode } from '@constants';
 import { useLotteryContract, useMetaMask } from '@hooks';
 import { useLotteryStore, useThemeStore } from '@services/store';
+import variables from '@styles/_variables.module.scss';
 
 import { renderRoutes, routes } from './routes/routes';
 
@@ -37,9 +38,14 @@ function App() {
         components: {
           Button: {
             borderRadius: 10,
-            borderRadiusLG: 10,
+            borderRadiusLG: 12,
             borderRadiusSM: 10,
+            controlHeight: 40,
+            controlHeightLG: 50,
           },
+        },
+        token: {
+          colorPrimary: variables.colorPrimary,
         },
       }}
     >

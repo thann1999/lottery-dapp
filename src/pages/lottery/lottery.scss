@@ -1,0 +1,13 @@
+@import '@styles/components';
+
+.lottery-page {
+  .button-icon {
+    button {
+      @apply flex items-center w-[350px] justify-center;
+
+      &:not(:disabled) {
+        @extend .button-high-light;
+      }
+    }
+  }
+}

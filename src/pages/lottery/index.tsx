@@ -9,13 +9,12 @@ import { useLotteryContract, useMetaMask } from '@hooks';
 import { web3 } from '@root/configs';
 import { useLotteryStore } from '@root/services/store';
 
+import { TimerCountdown } from './components/TimerCountdown';
+import './lottery.scss';
+
 const renderer = ({ hours, minutes, seconds, days }: CountdownRenderProps) => {
   // Render a countdown
-  return (
-    <span>
-      {days}:{hours}:{minutes}:{seconds}
-    </span>
-  );
+  return <TimerCountdown hours={hours} days={days} seconds={seconds} minutes={minutes} />;
 };
 
 export default function LotteryPage() {
@@ -59,40 +58,40 @@ export default function LotteryPage() {
   };
 
   return (
-    <div className="w-[50%] mt-40 mx-auto text-center">
+    <div className="w-[50%] mt-40 mx-auto text-center lottery-page">
       <Typography className="text-6xl font-bold">The Defi Lottery</Typography>
 
       <Typography className="text-zinc-300 font-medium text-lg mt-8">
         Time left to join lottery #{lotteryCount + 1}
       </Typography>
 
-      <div>{endDate && <Countdown date={new Date(endDate)} renderer={renderer} />}</div>
+      <div className="mt-2">
+        {endDate ? (
+          <Countdown date={new Date(endDate)} renderer={renderer} />
+        ) : (
+          <TimerCountdown days={0} hours={0} minutes={0} seconds={0} />
+        )}
+      </div>
 
-      <Space direction="horizontal" align="center" className="mt-8" size="large">
-        <Tooltip title={isCorrectChain ? '' : 'Unsupported Network'}>
-          <Button
-            type="primary"
-            size="large"
-            loading={isLoading || isEntering}
-            disabled={isAlreadyEntered || !isCorrectChain}
-            onClick={handleEnterLottery}
-            className="flex items-center"
-          >
-            {isAlreadyEntered ? (
-              <Typography.Text style={{ display: 'flex', alignItems: 'center' }}>
-                You already entered
-                <Icon icon="ion:ticket" fontSize={16} className="text-yellow-400 ml-2" />
-              </Typography.Text>
-            ) : (
-              'ENTER THE LOTTERY'
-            )}
-          </Button>
-        </Tooltip>
-
-        <Button type="primary" size="large">
-          HOW IT WORK
+      <Tooltip title={isCorrectChain ? '' : 'Unsupported Network'} className="mt-8">
+        <Button
+          type="primary"
+          size="large"
+          loading={isLoading || isEntering}
+          disabled={isAlreadyEntered || !isCorrectChain}
+          onClick={handleEnterLottery}
+          className="button-icon"
+        >
+          {isAlreadyEntered ? (
+            <Typography.Text style={{ display: 'flex', alignItems: 'center' }}>
+              You already entered
+              <Icon icon="ion:ticket" fontSize={16} className="text-yellow-400 ml-2" />
+            </Typography.Text>
+          ) : (
+            'ENTER THE LOTTERY'
+          )}
         </Button>
-      </Space>
+      </Tooltip>
 
       <Typography className="mt-8 text-2xl">
         Lottery Count:{' '}

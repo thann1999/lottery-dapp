@@ -154,14 +154,13 @@ export default function HeaderComponent() {
           )}
 
           {window.ethereum?.isMetaMask && wallet.accounts.length < 1 && (
-            <Button size="large" loading={isConnecting} onClick={connectMetaMask} type="primary">
+            <Button loading={isConnecting} onClick={connectMetaMask} type="primary">
               Connect wallet
             </Button>
           )}
 
           {hasProvider && !!wallet.accounts.length && (
             <Button
-              size="large"
               type="primary"
               className="flex items-center mx-4"
               onClick={handleViewDetailWallet}
