@@ -4,24 +4,10 @@ import { ChainId } from '@root/constants';
 
 import { web3 } from '../web3';
 
-const SEPOLIA_ADDRESS = '0x8dd4b0680ed1b7a7a164972f5527374f4686a6f5';
-const LINEA_ADDRESS = '0x25991d757945d71815276Ca9E8d59C4b697d11d8';
+const SEPOLIA_ADDRESS = '0x02BbF446713363260369d8E55E72162630d75C0e';
+const LINEA_ADDRESS = '0xd54d6ff042c071304c78bE48a7B3dEE1cCf67448';
 
 const ABI = [
-  {
-    inputs: [],
-    name: 'enter',
-    outputs: [],
-    stateMutability: 'payable',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'pickWinner',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
   {
     inputs: [],
     stateMutability: 'nonpayable',
@@ -43,6 +29,26 @@ const ABI = [
   {
     inputs: [],
     name: 'endDate',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'enter',
+    outputs: [],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'getBalance',
     outputs: [
       {
         internalType: 'uint256',
@@ -90,6 +96,13 @@ const ABI = [
       },
     ],
     stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'pickWinner',
+    outputs: [],
+    stateMutability: 'nonpayable',
     type: 'function',
   },
   {

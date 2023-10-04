@@ -3,7 +3,7 @@
 .lottery-page {
   .button-icon {
     button {
-      @apply flex items-center w-[350px] justify-center;
+      @apply flex items-center w-[350px] justify-center mx-auto;
 
       &:not(:disabled) {
         @extend .button-high-light;
@@ -17,5 +17,14 @@
     .ant-typography:first-child {
       @apply text-xl font-semibold;
     }
+  }
+
+  .current-pool {
+    background: linear-gradient(90deg, $color-primary, #f947d2, #fedc6f);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 500% auto;
+    animation: gradient 10s ease-in-out infinite alternate;
   }
 }

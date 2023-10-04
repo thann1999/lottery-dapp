@@ -57,9 +57,7 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
       return;
     }
 
-    const balance = Number(
-      await web3.utils.fromWei(await web3.eth.getBalance(accounts[0]), 'ether')
-    );
+    const balance = Number(web3.utils.fromWei(await web3.eth.getBalance(accounts[0]), 'ether'));
     const chainIdHex = await web3.eth.getChainId();
     const chainId = Number(chainIdHex);
 

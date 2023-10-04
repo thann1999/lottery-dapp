@@ -109,3 +109,6 @@ export enum SupportChainId {
   Linea = ChainId.Linea,
   Sepolia = ChainId.Sepolia,
 }
+
+// Fake data
+export const CURRENT_ETH_PRICE = 1650;
