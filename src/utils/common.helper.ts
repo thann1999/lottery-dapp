@@ -1,4 +1,6 @@
-import { CHAINS } from '@root/constants';
+import dayjs from 'dayjs';
+
+import { CHAINS, DateTimeFormat } from '@root/constants';
 import { SelectOption } from '@root/interfaces';
 
 export const generateDataSource = <T>(data: T[], disableConditional?: (record: T) => boolean) => {
@@ -11,12 +13,15 @@ export const generateDataSource = <T>(data: T[], disableConditional?: (record: T
   );
 };
 
-export const translateOptions = (data: SelectOption): SelectOption => {
-  return data?.map((item) => ({ ...item, label: item.label as string }));
+export const convertDate = (
+  date: string | number | Date | dayjs.Dayjs | null | undefined,
+  format = DateTimeFormat.CROSS_DATE
+) => {
+  return dayjs(date).isValid() ? dayjs(date).format(format) : '';
 };
 
-export const formatChainAsNum = (chainIdHex = '') => {
-  return parseInt(chainIdHex);
+export const translateOptions = (data: SelectOption): SelectOption => {
+  return data?.map((item) => ({ ...item, label: item.label as string }));
 };
 
 export const formatAddress = (addr = '') => {

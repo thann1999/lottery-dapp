@@ -6,8 +6,9 @@ import { RouterProvider } from 'react-router-dom';
 
 import { LoadingScreen } from '@components';
 import { ThemeMode } from '@constants';
-import { useLotteryContract } from '@hooks';
+import { useLotteryContract, useMetaMask } from '@hooks';
 import { useLotteryStore, useThemeStore } from '@services/store';
+import variables from '@styles/_variables.module.scss';
 
 import { renderRoutes, routes } from './routes/routes';
 
@@ -15,6 +16,7 @@ function App() {
   const appTheme = useThemeStore((state) => state.appTheme);
   const getContractInfo = useLotteryStore((state) => state.getContractInfo);
   const { lotteryContract } = useLotteryContract();
+  const { isCorrectChain } = useMetaMask();
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -24,8 +26,10 @@ function App() {
   }, [appTheme]);
 
   useEffect(() => {
-    getContractInfo(lotteryContract);
-  }, [getContractInfo, lotteryContract]);
+    if (isCorrectChain) {
+      getContractInfo(lotteryContract);
+    }
+  }, [getContractInfo, lotteryContract, isCorrectChain]);
 
   return (
     <ConfigProvider
@@ -34,9 +38,14 @@ function App() {
         components: {
           Button: {
             borderRadius: 10,
-            borderRadiusLG: 10,
+            borderRadiusLG: 12,
             borderRadiusSM: 10,
+            controlHeight: 40,
+            controlHeightLG: 50,
           },
+        },
+        token: {
+          colorPrimary: variables.colorPrimary,
         },
       }}
     >

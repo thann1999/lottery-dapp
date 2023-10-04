@@ -38,6 +38,8 @@ export const SUPPORTED_CHAINS = [
 ];
 
 export default function HeaderComponent() {
+  const [chainId, setChainId] = useState(ChainId.Sepolia);
+  const [isLoading, setIsLoading] = useState(false);
   const [openSetting, setOpenSetting] = useState(false);
   const navigate = useNavigate();
   const { wallet, hasProvider, isConnecting, connectMetaMask, switchNetwork, isCorrectChain } =
@@ -99,8 +101,13 @@ export default function HeaderComponent() {
     navigate(href);
   };
 
-  const handleChangeChain = (value: number) => {
-    switchNetwork(value);
+  const handleChangeChain = async (value: number) => {
+    setChainId(value);
+    if (wallet.accounts[0]) {
+      setIsLoading(true);
+      await switchNetwork(value);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -118,7 +125,6 @@ export default function HeaderComponent() {
             <Typography
               key={item.key}
               onClick={() => handleNavigate(item.href, item.isDisabled)}
-              // disabled={item.isDisabled}
               className={clsx('font-medium  text-base hidden lg:block text ml-10', {
                 'text-primary': activeKey === item.key,
                 'cursor-pointer': !item.isDisabled,
@@ -141,20 +147,20 @@ export default function HeaderComponent() {
               size="large"
               options={SUPPORTED_CHAINS}
               onChange={handleChangeChain}
-              value={isCorrectChain ? wallet.chain?.chainId : SupportChainId.Sepolia}
+              loading={isLoading}
+              value={isCorrectChain ? wallet.chain?.chainId : chainId}
               className="w-36 mx-4"
             />
           )}
 
           {window.ethereum?.isMetaMask && wallet.accounts.length < 1 && (
-            <Button size="large" loading={isConnecting} onClick={connectMetaMask} type="primary">
+            <Button loading={isConnecting} onClick={connectMetaMask} type="primary">
               Connect wallet
             </Button>
           )}
 
           {hasProvider && !!wallet.accounts.length && (
             <Button
-              size="large"
               type="primary"
               className="flex items-center mx-4"
               onClick={handleViewDetailWallet}
