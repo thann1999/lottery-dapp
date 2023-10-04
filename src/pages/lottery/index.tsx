@@ -39,7 +39,7 @@ export default function LotteryPage() {
   const { wallet, isCorrectChain } = useMetaMask();
   const { lotteryContract } = useLotteryContract();
   const isManager =
-    manager.toLocaleLowerCase() === wallet.accounts[0] && isCorrectChain && players.length;
+    manager.toLocaleLowerCase() === wallet.accounts[0] && isCorrectChain && !!players.length;
 
   const isAlreadyEntered = useMemo(
     () => !!players.find((address) => address?.toLowerCase() === wallet.accounts[0]),
