@@ -74,9 +74,7 @@ export default function LotteryPage() {
   };
 
   return (
-    <div
-      className={clsx('w-[50%] mt-16 mx-auto text-center lottery-page', { ' mt-32': !isManager })}
-    >
+    <div className={clsx('w-[50%] mt-16 mx-auto text-center lottery-page')}>
       <Typography className="text-6xl font-bold">The Defi Lottery</Typography>
 
       <Statistic value={balance * CURRENT_ETH_PRICE} formatter={formatter} className="mt-6" />
