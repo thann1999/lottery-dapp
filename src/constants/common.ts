@@ -88,14 +88,15 @@ export enum RouteKey {
 
 export const HEADER_MENU: HeaderMenuItem[] = [
   {
-    label: 'Mint',
-    href: getMintPath(),
-    key: RouteKey.MintNFT,
-  },
-  {
     label: 'Lottery',
     href: getLotteryPath(),
     key: RouteKey.Lottery,
+  },
+  {
+    label: 'Mint (Coming soon)',
+    href: getMintPath(),
+    key: RouteKey.MintNFT,
+    isDisabled: true,
   },
   {
     label: 'Stake (Coming soon)',
