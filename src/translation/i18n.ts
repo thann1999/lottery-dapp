@@ -15,7 +15,7 @@ i18n
   .use(initReactI18next)
   // init i18next
   .init({
-    lng: storageService.getCookie(CookieKey.LANGUAGE) || Language.VI,
+    lng: storageService.getCookie(CookieKey.LANGUAGE) || Language.EN,
     debug: false,
     interpolation: {
       escapeValue: false,
